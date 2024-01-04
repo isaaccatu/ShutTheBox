@@ -4,7 +4,7 @@ import javax.swing.*;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
-    private final GestionJugador gestor;
+    private final Manager manager;
 
     public static void main(String[] args)
     {
@@ -12,66 +12,66 @@ public class Main {
     }
 
     public Main(){
-        this.gestor =new GestionJugador();
-        this.menuPrincipal();
-        System.out.println("Juego Finalizado");
+        this.manager =new Manager();
+        this.mainMenu();
+        System.out.println("Game Finished");
     }
 
-    private void menuPrincipal(){
+    private void mainMenu(){
         int opcion;
 
         do {
             opcion = Integer.parseInt(JOptionPane.showInputDialog("""
-                    ==Opciones==\s
-                    1. Nuevo Juego
-                    0. SALIR
+                    ==Options==\s
+                    1. New Game
+                    0. EXIT
                     """));
 
             switch (opcion) {
 
                 case 1:
-                    this.gestor.nuevoJuego();
-                    this.menuSecundario();
+                    this.manager.newGame();
+                    this.secondaryMenu();
                     break;
 
                 default:
-                    JOptionPane.showMessageDialog(null, "OPCIÓN NO VALIDA!!...");
+                    JOptionPane.showMessageDialog(null, "INVALID OPTION!!...");
                     break;
 
                 case 0:
-                    JOptionPane.showMessageDialog(null, "Hasta la próxima...");
+                    JOptionPane.showMessageDialog(null, "See you next time...");
                     break;
             }
         }
         while (opcion != 0);
     }
 
-    private void menuSecundario()
+    private void secondaryMenu()
     {
         int opcion;
 
         do {
             opcion = Integer.parseInt(JOptionPane.showInputDialog("""
-                    ==Opciones==\s
-                    1. Siguiente Tiro
-                    0. SALIR
+                    ==Options==\s
+                    1. Next Shot
+                    0. EXIT
                     """));
 
             switch (opcion) {
 
                 case 1:
-                    if (!this.gestor.Lost())
+                    if (!this.manager.Lost())
                     {
-                        this.gestor.siguienteTiro();
+                        this.manager.nextShot();
                         break;
                     }
                     else {
-                        this.menuPrincipal();
+                        this.mainMenu();
                         break;
                     }
 
                 default:
-                    JOptionPane.showMessageDialog(null, "OPCIÓN NO VALIDA!!...");
+                    JOptionPane.showMessageDialog(null, "INVALID OPTION!!...");
                     break;
 
                 case 0:

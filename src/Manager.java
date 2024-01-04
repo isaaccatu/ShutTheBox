@@ -5,19 +5,19 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class GestionJugador {
+public class Manager {
 
-    List<Integer> completo = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
-    private final List<Integer> eliminados = new ArrayList<>();
+    List<Integer> complete = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    private final List<Integer> eliminated = new ArrayList<>();
     private final List<Integer> toShow = new ArrayList<>();
     private boolean Lose = false;
 
     //métodos
 
-    public void nuevoJuego() {
+    public void newGame() {
         int n;
         List<List<Integer>> result = new ArrayList<>();
-        n = Integer.parseInt(JOptionPane.showInputDialog("Primer Lanzamiento: "));
+        n = Integer.parseInt(JOptionPane.showInputDialog("First Throw: "));
 
         while (true){
             if(1<n && n<13)
@@ -63,7 +63,7 @@ public class GestionJugador {
                 //Select the one with the most amount of numbers going from 1 to 6
                 List<List<Integer>> listsWithMostNumbersFromOneToSix = getMostNumbersFromOneToSix(highestProbList);
                 System.out.println("The lists with the most numbers from 1 to 6 are: " + listsWithMostNumbersFromOneToSix);
-                eliminados.addAll(listsWithMostNumbersFromOneToSix.getFirst());
+                eliminated.addAll(listsWithMostNumbersFromOneToSix.getFirst());
 
                 //If more than one outcome has the same amount of numbers from 1 to 6:
                 //Select the one that has the lowest highest number
@@ -71,47 +71,47 @@ public class GestionJugador {
                     List<Integer> listWithoutCertainNumbers = getListWithoutCertainNumbers(listsWithMostNumbersFromOneToSix);
                     System.out.println("The list without 10 and 9 is: " + listWithoutCertainNumbers);
 
-                    eliminados.clear();
-                    eliminados.addAll(listWithoutCertainNumbers);
+                    eliminated.clear();
+                    eliminated.addAll(listWithoutCertainNumbers);
                 }
 
 
-                completo.removeAll(eliminados);
-                toShow.addAll(completo);
-                JOptionPane.showMessageDialog(null,"The best option for you to choose is: "+ completo);
+                complete.removeAll(eliminated);
+                toShow.addAll(complete);
+                JOptionPane.showMessageDialog(null,"The best option for you to choose is: "+ complete);
                 resetCompleto();
                 //Repeat the process until winning or losing
                 break;
             }
 
             else {
-                JOptionPane.showMessageDialog(null, "Valor incorrecto");
-                n = Integer.parseInt(JOptionPane.showInputDialog("Primer Lanzamiento: "));
+                JOptionPane.showMessageDialog(null, "Incorrect value");
+                n = Integer.parseInt(JOptionPane.showInputDialog("First Throw: "));
             }
 
         }
 
     }
 
-    public void siguienteTiro() {
+    public void nextShot() {
         int n;
         List<List<Integer>> result = new ArrayList<>();
-        n = Integer.parseInt(JOptionPane.showInputDialog("Siguiente Lanzamiento: "));
+        n = Integer.parseInt(JOptionPane.showInputDialog("Next Shot: "));
         while (true) {
             if (1 < n && n < 13) {
                 decompose(n, n, 1, new ArrayList<>(), result); //Obtain all the possible combinations of n
                 result = iterator(result); //Correction for decomposing 11 and 12
 
-                removeLists(result, eliminados);
+                removeLists(result, eliminated);
 
                 // Create a list of lists, where each inner list is a list of integers from 1 to 10
                 List<List<Integer>> lists = new ArrayList<>();
-                completo.removeAll(eliminados);
+                complete.removeAll(eliminated);
 
                 for (int i = 0; i < result.size(); i++) {
                     List<Integer> list = new ArrayList<>();
                     for (int j = 1; j <= 10; j++) {
-                        if (!completo.contains(j)) {
+                        if (!complete.contains(j)) {
                             list.add(j);
                         }
                     }
@@ -148,8 +148,8 @@ public class GestionJugador {
                     //Select the one with the most amount of numbers going from 1 to 6
                     List<List<Integer>> listsWithMostNumbersFromOneToSix = getMostNumbersFromOneToSix(highestProbList);
                     System.out.println("The lists with the most numbers from 1 to 6 are: " + listsWithMostNumbersFromOneToSix);
-                    eliminados.clear();
-                    eliminados.addAll(listsWithMostNumbersFromOneToSix.getFirst());
+                    eliminated.clear();
+                    eliminated.addAll(listsWithMostNumbersFromOneToSix.getFirst());
 
                     //If more than one outcome has the same amount of numbers from 1 to 6:
                     //Select the one that has the lowest highest number
@@ -157,25 +157,25 @@ public class GestionJugador {
                         List<Integer> listWithoutCertainNumbers = getListWithoutCertainNumbers(listsWithMostNumbersFromOneToSix);
                         System.out.println("The list without 10 and 9 is: " + listWithoutCertainNumbers);
 
-                        eliminados.clear();
-                        eliminados.addAll(listWithoutCertainNumbers);
+                        eliminated.clear();
+                        eliminated.addAll(listWithoutCertainNumbers);
                     }
 
-                    completo.removeAll(eliminados);
-                    completo.removeAll(toShow);
-                    toShow.addAll(completo);
-                    JOptionPane.showMessageDialog(null, "The best option for you to choose is: " + completo);
+                    complete.removeAll(eliminated);
+                    complete.removeAll(toShow);
+                    toShow.addAll(complete);
+                    JOptionPane.showMessageDialog(null, "The best option for you to choose is: " + complete);
                     resetCompleto();
                     //Repeat the process until winning or losing
                 } else {
-                    JOptionPane.showMessageDialog(null, "Perdiste");
+                    JOptionPane.showMessageDialog(null, "You Lost");
                     Lose = true;
                 }
 
                 break;
             } else {
-                JOptionPane.showMessageDialog(null, "Valor incorrecto");
-                n = Integer.parseInt(JOptionPane.showInputDialog("Siguiente Lanzamiento: "));
+                JOptionPane.showMessageDialog(null, "Incorrect value");
+                n = Integer.parseInt(JOptionPane.showInputDialog("Next Shot: "));
             }
         }
     }
@@ -326,17 +326,17 @@ public class GestionJugador {
     }
 
     private void resetCompleto(){
-        this.completo.clear();
-        this.completo.add(1);
-        this.completo.add(2);
-        this.completo.add(3);
-        this.completo.add(4);
-        this.completo.add(5);
-        this.completo.add(6);
-        this.completo.add(7);
-        this.completo.add(8);
-        this.completo.add(9);
-        this.completo.add(10);
+        this.complete.clear();
+        this.complete.add(1);
+        this.complete.add(2);
+        this.complete.add(3);
+        this.complete.add(4);
+        this.complete.add(5);
+        this.complete.add(6);
+        this.complete.add(7);
+        this.complete.add(8);
+        this.complete.add(9);
+        this.complete.add(10);
     }
 
     private static void removeLists(List<List<Integer>> listOfLists, List<Integer> anotherList) {
